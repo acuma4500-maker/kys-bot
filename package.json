@@ -1,0 +1,20 @@
+{
+  "name": "kys-bot",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Kışla Yönetim Sistemi — Telegram bot (Cloudflare Workers + grammY)",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "grammy": "^1.30.0"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20250101.0",
+    "typescript": "^5.5.4",
+    "wrangler": "^3.90.0"
+  }
+}

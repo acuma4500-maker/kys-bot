@@ -1,0 +1,20 @@
+# Kışla Yönetim Sistemi (KYS) — Cloudflare Workers yapılandırması
+name = "kys-bot"
+main = "src/main.ts"
+compatibility_date = "2026-01-01"
+
+# ---------------------------------------------------------------
+# GİZLİ DEĞİŞKENLER (Dashboard > Worker > Settings > Variables and Secrets)
+#
+#   BOT_TOKEN  -> BotFather'dan alınan bot token'ı        (Secret)
+#   ADMIN_ID   -> Yöneticinin Telegram kullanıcı ID'si    (Secret)
+#
+# Terminalden eklemek istersen:
+#   wrangler secret put BOT_TOKEN
+#   wrangler secret put ADMIN_ID
+# ---------------------------------------------------------------
+
+# İleride Cloudflare KV eklenince:
+# [[kv_namespaces]]
+# binding = "KYS_KV"
+# id = "..."
