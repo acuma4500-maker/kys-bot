@@ -1,7 +1,0 @@
-name = "kys-bot"
-
-main = "src/main.ts"
-
-compatibility_date = "2026-07-16"
-
-workers_dev = true
