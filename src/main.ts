@@ -1,22 +1,28 @@
-import { bot } from "./bot.ts";
+import { Bot, webhookCallback } from "grammy";
 
-bot.command("start", async (ctx) => {
-  await ctx.reply(
-`🪖 Kışla Yönetim Sistemine Hoş Geldin.
+export interface Env {
+  BOT_TOKEN: string;
+}
 
-Bu proje şu anda geliştiriliyor.
+export default {
+  async fetch(request: Request, env: Env): Promise<Response> {
+    const bot = new Bot(env.BOT_TOKEN);
+
+    bot.command("start", async (ctx) => {
+      await ctx.reply(`🪖 Kışla Yönetim Sistemine Hoş Geldin!
+
+✅ Cloudflare Workers çalışıyor.
 
 Yakında;
 
 🧹 Temizlik Listesi
 👷 İş Dağıtımı
-📊 İstatistikler
+📊 İstatistik
 ⚙️ Yönetim Paneli
 
-aktif olacaktır.`
-  );
-});
+aktif olacaktır.`);
+    });
 
-console.log("✅ Bot çalışıyor...");
-
-bot.start();
+    return webhookCallback(bot, "cloudflare-mod")(request);
+  },
+};
