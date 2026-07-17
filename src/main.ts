@@ -1,4 +1,7 @@
-import { Bot, InlineKeyboard, webhookCallback } from "grammy";
+import { Bot, webhookCallback } from "grammy";
+
+import { registerStart } from "./commands/start";
+import { registerCallbacks } from "./callbacks";
 
 export interface Env {
   BOT_TOKEN: string;
@@ -6,56 +9,17 @@ export interface Env {
 
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
+
     const bot = new Bot(env.BOT_TOKEN);
 
-    bot.command("start", async (ctx) => {
-      const keyboard = new InlineKeyboard()
-        .text("🧹 Temizlik Listesi", "cleaning")
-        .row()
-        .text("👷 İş Dağıt", "job")
-        .text("🏠 Eksik Personel", "missing")
-        .row()
-        .text("📊 İstatistik", "stats")
-        .text("⚙️ Yönetim", "admin");
+    // Komutları yükle
+    registerStart(bot);
 
-      await ctx.reply(
-`🪖 *Kışla Yönetim Sistemi*
+    // Butonları yükle
+    registerCallbacks(bot);
 
-Hoş geldiniz.
-
-Aşağıdaki menüden yapmak istediğiniz işlemi seçebilirsiniz.`,
-        {
-          parse_mode: "Markdown",
-          reply_markup: keyboard,
-        }
-      );
-    });
-
-    bot.callbackQuery("cleaning", async (ctx) => {
-      await ctx.answerCallbackQuery();
-      await ctx.editMessageText("🧹 Temizlik listesi henüz oluşturulmadı.");
-    });
-
-    bot.callbackQuery("job", async (ctx) => {
-      await ctx.answerCallbackQuery();
-      await ctx.editMessageText("👷 İş dağıtım sistemi hazırlanıyor.");
-    });
-
-    bot.callbackQuery("missing", async (ctx) => {
-      await ctx.answerCallbackQuery();
-      await ctx.editMessageText("🏠 Eksik personel sistemi hazırlanıyor.");
-    });
-
-    bot.callbackQuery("stats", async (ctx) => {
-      await ctx.answerCallbackQuery();
-      await ctx.editMessageText("📊 İstatistik sistemi hazırlanıyor.");
-    });
-
-    bot.callbackQuery("admin", async (ctx) => {
-      await ctx.answerCallbackQuery();
-      await ctx.editMessageText("⚙️ Yönetim paneli hazırlanıyor.");
-    });
-
+    // Telegram webhook
     return webhookCallback(bot, "cloudflare-mod")(request);
+
   },
 };
